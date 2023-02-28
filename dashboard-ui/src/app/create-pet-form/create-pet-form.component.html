@@ -1,0 +1,37 @@
+<div class="modal" tabindex="-1" role="dialog" *ngIf="showForm">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create New Pet</h5>
+        <button type="button" class="btn-close" (click)="closeForm()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="petName">Pet Name:</label>
+          <input type="text" class="form-control" id="petName" name="petName" placeholder="pet name" [(ngModel)]="petName" required>
+        </div>
+        <div class="form-group">
+          <label for="petType">Type:</label>
+          <select class="form-control" id="petType" name="petType" [(ngModel)]="petType" required>
+            <option value="CAT">Cat</option>
+            <option value="DOG">Dog</option>
+            <option value="BIRD">Bird</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="petOwner">Owner:</label>
+          <input type="text" class="form-control" id="petOwner" name="petOwner" placeholder="search..." [(ngModel)]="petOwner" required (input)="onInput($event)">
+          <div *ngIf="showResults" class="results-dropdown">
+            <a *ngFor="let owner of owners" (click)="selectOwner(owner)">{{owner.username}}</a>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeForm()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="createPet()">Create Pet</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop show" *ngIf="showForm"></div>
