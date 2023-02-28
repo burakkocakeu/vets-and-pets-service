@@ -38,7 +38,8 @@ The Spring Boot application can be configured by modifying the application.prope
 ## API Documentation
 
 The Spring Boot application provides a RESTful API for managing pets and veterinarians. The API postman collection is available at `Vets and Pets APIs.postman_collection.json` and can be used once the application is running.
-User Interface
+
+## User Interface
 
 The user interface is built using Angular and can be accessed at http://localhost:4200 once the Angular development server is running.
 
