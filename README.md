@@ -20,7 +20,7 @@ To build and run the application, use the following steps:
     Navigate to the project directory: cd vets-and-pets-service
     Open a new terminal window at this directory and run the command: docker compose up
     Build and start the Spring Boot application using Maven: mvn clean spring-boot:run
-    Open a new terminal window and navigate to the dashboard directory: cd dashboard
+    Open a new terminal window and navigate to the dashboard-ui directory: cd dashboard-ui
     Install the required dependencies: npm install
     Start the Angular development server: ng serve --open
 
