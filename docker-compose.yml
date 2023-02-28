@@ -4,6 +4,7 @@ services:
   postgres:
     image: postgres:15-alpine
     restart: always
+    container_name: vets-postgres
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: test1234
@@ -12,6 +13,25 @@ services:
       - db_data:/var/lib/postgresql/data
     ports:
       - "5444:5432"
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: vets-redis
+    ports:
+      - 5445:6379
+    volumes:
+      - redis-data:/data
+  redis-browser:
+    image: rediscommander/redis-commander:latest
+    container_name: vets-redis-commander
+    ports:
+      - "8081:8081"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
 
 volumes:
   db_data:
+  redis-data:

@@ -1,1 +1,155 @@
-<p>dashboard works!</p>
+<div class="container">
+  <h1 class="my-4">
+    <span *ngIf="getRole() === 'ADMIN'">Admin </span>
+    <span *ngIf="getRole() === 'USER'">User </span>
+    Dashboard <button class="btn btn-primary" (click)="logout()">Logout</button></h1>
+  <div class="row" *ngIf="getRole() === 'ADMIN'">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fa fa-users"></i> Total Users</h5>
+          <p class="card-text">{{ latestUsers > 1 ? 'These are' : 'This is' }} the latest {{ latestUsers }} user<span *ngIf="latestUsers > 1">s</span> among {{ totalUsers }} in the system.</p>
+          <button class="btn btn-sm btn-outline-primary ms-auto" (click)="createUser()">
+            <i class="bi bi-plus"></i>
+          </button>
+          <button class="btn btn-sm btn-outline-primary" (click)="editUser()" style="margin-left: 5px;">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <table class="table table-striped table-hover" *ngIf="getRole() === 'ADMIN'">
+            <thead>
+            <tr>
+              <th>Username</th>
+              <th>Role</th>
+              <th>Total Pets</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let user of userList; let i = index;">
+              <td [title]="user.id">{{ user.username.toUpperCase() }}</td>
+              <td [title]="'NAME: ' + user.fullName + ', EMAIL: ' + user.email">{{ user.role }}</td>
+              <td>{{ user.pets.length }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fas fa-paw"></i> Total Pets</h5>
+          <p class="card-text">There are currently {{ totalPets }} pet<span *ngIf="totalPets > 1">s</span> in the system.</p>
+          <button class="btn btn-sm btn-outline-primary ms-auto" (click)="showPetForm()">
+            <i class="bi bi-plus"></i>
+          </button>
+          <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+              <th>Type</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let pet of petStatistics">
+              <td>{{ pet.type }}</td>
+              <td>{{ pet.total }}</td>
+              <td class="animal-icons">
+                <i class="fa fa-cat" *ngIf="pet.type === 'CAT'"></i>
+                <i class="fas fa-dog" *ngIf="pet.type === 'DOG'"></i>
+                <i class="fas fa-dove" *ngIf="pet.type === 'BIRD'"></i>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <h1 class="my-4">Pets
+    <button *ngIf="getRole() === 'USER'" class="btn btn-sm btn-outline-primary ms-auto" (click)="showPetForm()">
+      [{{ petList.length }}] <i class="bi bi-plus"></i>
+    </button>
+  </h1>
+  <table class="table table-striped table-hover">
+    <thead>
+    <tr>
+      <th></th>
+      <th>ID</th>
+      <th>Owner</th>
+      <th>Name</th>
+      <th>Type</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let pet of petList; let i = index;">
+      <td>{{ i+1 }}</td>
+      <td>{{ pet.id }}</td>
+      <td [title]="pet.ownerId">{{ pet.owner.toUpperCase() }}</td>
+      <td *ngIf="editPetIndex !== i">{{ pet.name }}</td>
+      <td *ngIf="editPetIndex === i"><input [(ngModel)]="pet.name"></td>
+      <td *ngIf="editPetIndex !== i">{{ pet.type }}</td>
+      <td *ngIf="editPetIndex === i">
+        <select class="form-control" id="petType" name="petType" [(ngModel)]="pet.type" required>
+          <option value="CAT">Cat</option>
+          <option value="DOG">Dog</option>
+          <option value="BIRD">Bird</option>
+        </select>
+      </td>
+      <td>
+        <!-- Edit button -->
+        <button class="btn btn-sm btn-outline-primary" *ngIf="editPetIndex !== i" (click)="editPet(i, pet)">
+          <i class="bi bi-pencil"></i>
+        </button>
+
+        <!-- Delete button -->
+        <button class="btn btn-sm btn-outline-danger" *ngIf="editPetIndex !== i" (click)="showPetDeleteConfirmDialog(i, pet)" style="margin-left: 10px;">
+          <i class="bi bi-trash"></i>
+        </button>
+
+        <!-- Update button -->
+        <button class="btn btn-sm btn-outline-success" *ngIf="editPetIndex === i" (click)="updatePet(i, pet)">
+          <i class="bi bi-check"></i>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+      <button class="page-link" [disabled]="this.petPage.pageNumber === 0"
+              (click)="pageableGetPets(this.petPage.pageNumber-1)" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </button>
+    </li>
+    <li class="page-item" *ngFor="let page of [].constructor(this.petPage.totalPages); let i = index;">
+      <button class="page-link" [ngClass]="this.petPage.pageNumber === i ? 'page-selected' : ''"
+              (click)="pageableGetPets(i)">
+        {{ i+1 }}
+      </button>
+    </li>
+    <li class="page-item">
+      <button class="page-link" [disabled]="petPage.pageNumber === this.petPage.totalPages-1"
+              (click)="pageableGetPets(this.petPage.pageNumber+1)" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </button>
+    </li>
+  </ul>
+</nav>
+
+
+<app-create-user-form [(showForm)]="showCreateUserForm" (userCreated)="onUserCreated($event)" [isCreate]="isCreate()" (userUpdatedOrDeleted)="onUserUpdatedOrCreated()"></app-create-user-form>
+<app-create-pet-form [(showForm)]="showCreatePetForm" (petCreated)="updateData()" [userId]="getUserId()"></app-create-pet-form>
+<app-confirmation-modal *ngIf="showPetDeleteConfirm" (deleteConfirmed)="onPetDeleteConfirmed($event)" style="position:fixed; top: 40%; left: 40%;"></app-confirmation-modal>
+
+<button class="btn btn-primary position-fixed bottom-0 end-0" style="margin-bottom: 1.5rem; margin-right: 1.5rem;" (click)="updateData()">
+  <i class="fas fa-sync-alt"></i>
+</button>

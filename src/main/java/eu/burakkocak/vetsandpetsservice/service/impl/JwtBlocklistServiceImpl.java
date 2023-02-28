@@ -1,27 +1,28 @@
 package eu.burakkocak.vetsandpetsservice.service.impl;
 
-import eu.burakkocak.vetsandpetsservice.service.CacheService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import eu.burakkocak.vetsandpetsservice.service.JwtBlocklistService;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class CacheServiceImpl implements CacheService {
-    private final RedisTemplate<String, Boolean> redisTemplate;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-    @Override
-    public boolean getBlackListedToken(String token) {
-        ValueOperations<String, Boolean> ops = redisTemplate.opsForValue();
-        return ops.get(token);
+@Service
+public class JwtBlocklistServiceImpl implements JwtBlocklistService {
+    private final RedisTemplate<String, String> redisTemplate;
+    private static final String BLOCKED_TOKENS_KEY = "blockedTokens";
+
+    public JwtBlocklistServiceImpl(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
     }
 
-    @Override
-    public void setBlackListToken(String token) {
-        ValueOperations<String, Boolean> ops = redisTemplate.opsForValue();
-        ops.set(token, true);
+    public void blockToken(String token, Date expirationDate) {
+        long seconds = (expirationDate.getTime() - System.currentTimeMillis()) / 1000;
+        redisTemplate.opsForSet().add(BLOCKED_TOKENS_KEY, token);
+        redisTemplate.expire(BLOCKED_TOKENS_KEY, seconds, TimeUnit.SECONDS);
+    }
+
+    public boolean isTokenBlocked(String token) {
+        return redisTemplate.opsForSet().isMember(BLOCKED_TOKENS_KEY, token);
     }
 }

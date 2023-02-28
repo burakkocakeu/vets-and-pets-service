@@ -1,1 +1,22 @@
-<p>login works!</p>
+<!-- login.component.html -->
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <form class="bg-white p-5 rounded shadow" (ngSubmit)="onSubmit()">
+    <h2 class="text-center mb-4">Log In</h2>
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" class="form-control" id="username" placeholder="Enter username" [(ngModel)]="username" name="username" required>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" placeholder="Enter password" [(ngModel)]="password" name="password" required>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-sm btn-outline-primary me-2" (click)="showRegisterPopup()" style="cursor:pointer; margin-right: 0 !important;">Register</button>
+    </div>
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-primary mt-3">Log In</button>
+    </div>
+    <div class="absolute-message alert alert-warning" *ngIf="showErrorMessage">{{ errorMessage }}</div>
+    <div class="absolute-message alert alert-success" *ngIf="showRegisteredMessage" style="bottom: -130px;">{{ registeredMessage }}</div>
+  </form>
+</div>

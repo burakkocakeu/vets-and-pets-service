@@ -1,4 +1,4 @@
-package eu.burakkocak.vetsandpetsservice.enums;
+package eu.burakkocak.vetsandpetsservice.auth.enums;
 
 public enum Role {
     USER, ADMIN

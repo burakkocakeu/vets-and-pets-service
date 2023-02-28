@@ -1,1 +1,14 @@
-<p>confirmation-modal works!</p>
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Confirmation</h4>
+    </div>
+    <div class="modal-body">
+      Are you sure you want to delete this item?
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="onCancel()">Cancel</button>
+      <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+    </div>
+  </div>
+</div>

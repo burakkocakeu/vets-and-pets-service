@@ -1,15 +1,22 @@
-package eu.burakkocak.vetsandpetsservice.api.dto;
+package eu.burakkocak.vetsandpetsservice.core;
 
-import eu.burakkocak.vetsandpetsservice.data.model.Account;
-import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
-public class AccountHolder {
-    private static Account account;
-    public void set(Account account) {
-        this.account = account;
+import java.util.Objects;
+
+@NoArgsConstructor
+public class ContextHolder {
+    private static final ThreadLocal<Context> THREAD_LOCAL = new InheritableThreadLocal<>();
+
+    public static Context get() {
+        return Objects.isNull(THREAD_LOCAL.get()) ? Context.builder().build() : THREAD_LOCAL.get();
     }
-    public Account get() {
-        return this.account;
+
+    public static void set(Context context) {
+        THREAD_LOCAL.set(context);
+    }
+
+    public static void clear() {
+        THREAD_LOCAL.remove();
     }
 }

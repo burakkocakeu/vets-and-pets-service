@@ -1,4 +1,4 @@
-package eu.burakkocak.vetsandpetsservice.config.security;
+package eu.burakkocak.vetsandpetsservice.auth.config.security;
 
 import eu.burakkocak.vetsandpetsservice.data.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;

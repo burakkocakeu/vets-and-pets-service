@@ -1,4 +1,4 @@
-package eu.burakkocak.vetsandpetsservice.config.security;
+package eu.burakkocak.vetsandpetsservice.auth.config.security;
 
 import eu.burakkocak.vetsandpetsservice.data.model.Account;
 import io.jsonwebtoken.Claims;
@@ -21,6 +21,7 @@ import java.util.function.Function;
 public class JwtService {
     @Value("${spring.security.secret}")
     private String SECRET_KEY;
+    private final static int EXPIRE_TIME = 1000 * 60 * 30; // 30 minutes
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -34,6 +35,7 @@ public class JwtService {
     public String generateToken(Account userDetails) {
         HashMap<String, Object> claims = new HashMap<>();
         claims.put("ROLES", List.of(userDetails.getRole()));
+        claims.put("userId", userDetails.getId());
         return generateToken(claims, userDetails);
     }
 
@@ -42,7 +44,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRE_TIME))
                 .signWith(SignatureAlgorithm.HS256, getSignInKey())
                 .compact();
     }
@@ -56,7 +58,7 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
-    private Date extractExpiration(String token) {
+    public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 

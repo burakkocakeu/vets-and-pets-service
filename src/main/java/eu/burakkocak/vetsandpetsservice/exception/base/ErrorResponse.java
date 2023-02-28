@@ -1,5 +1,6 @@
-package eu.burakkocak.vetsandpetsservice.exception;
+package eu.burakkocak.vetsandpetsservice.exception.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import io.micrometer.common.util.StringUtils;
@@ -23,8 +24,7 @@ public class ErrorResponse implements Serializable {
     @JsonUnwrapped
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private ErrorDetail errorDetail;
-    @JsonUnwrapped
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonIgnore
     private List params;
     private static MessageSourceAccessor messages;
 

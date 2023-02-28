@@ -8,6 +8,7 @@ import {PetServiceService} from "../pet-service.service";
   styleUrls: ['./create-pet-form.component.css']
 })
 export class CreatePetFormComponent {
+  @Input() userId: string | undefined;
   @Input() showForm: boolean | undefined;
   @Output() showFormChange = new EventEmitter<boolean>();
   @Output() petCreated: EventEmitter<any> = new EventEmitter();
@@ -39,8 +40,9 @@ export class CreatePetFormComponent {
 
   createPet() {
     this.closeForm();
+    const id = this.userId !== undefined ? null : this.petOwnerId
     const body = {
-      userId: this.petOwnerId,
+      userId: id,
       name: this.petName,
       type: this.petType
     };

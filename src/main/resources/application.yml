@@ -1,1 +1,48 @@
+server:
+  port: 8500
 
+logging:
+  level:
+    eu:
+      burakkocak: debug
+    org:
+      springframework: info
+
+spring:
+  application:
+    name: vets-and-pets-service
+  datasource:
+    url: jdbc:postgresql://localhost:5444/case-study?currentSchema=test
+    username: admin
+    password: test1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    baseline-version: 0
+    baseline-on-migrate: true
+    schemas: test
+    table: schema_version
+    validate-on-migrate: false
+  jackson:
+    default-property-inclusion: non_null
+  security:
+    secret: 614E635266556A586E3272357538782F413F4428472B4B6250655367566B5970
+    user:
+      name: user
+      password: user
+    filter:
+      order: 10
+  data:
+    redis:
+      host: localhost
+      port: 5445
+      password:

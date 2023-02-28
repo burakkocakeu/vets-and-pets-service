@@ -1,4 +1,4 @@
-package io.burakkocak.testautomationservice.auth.dto;
+package eu.burakkocak.vetsandpetsservice.auth.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class AuthenticationRequest {
-    private String email;
+    private String username;
     private String password;
 }

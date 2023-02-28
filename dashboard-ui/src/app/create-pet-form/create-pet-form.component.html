@@ -18,7 +18,7 @@
             <option value="BIRD">Bird</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="form-group" *ngIf="userId === undefined">
           <label for="petOwner">Owner:</label>
           <input type="text" class="form-control" id="petOwner" name="petOwner" placeholder="search..." [(ngModel)]="petOwner" required (input)="onInput($event)">
           <div *ngIf="showResults" class="results-dropdown">

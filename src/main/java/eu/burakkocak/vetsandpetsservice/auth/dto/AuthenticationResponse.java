@@ -1,4 +1,4 @@
-package io.burakkocak.testautomationservice.auth.dto;
+package eu.burakkocak.vetsandpetsservice.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

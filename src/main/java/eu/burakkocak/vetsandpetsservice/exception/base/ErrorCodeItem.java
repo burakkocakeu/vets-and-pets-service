@@ -1,6 +1,5 @@
-package eu.burakkocak.vetsandpetsservice.exception;
+package eu.burakkocak.vetsandpetsservice.exception.base;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.http.HttpStatus;
 
 import java.util.Collection;
@@ -25,22 +24,8 @@ public final class ErrorCodeItem implements ErrorCodeTemplate {
         return new ErrorCodeItem(enumInstance);
     }
 
-    @JsonIgnore
-    public static ErrorCodeItem valueOf(String name) {
-        ErrorCodeItem code = (ErrorCodeItem) enums.get(name);
-        if (code == null) {
-            throw new IllegalArgumentException(String.format("No enum constant %s.%s", ErrorCodeTemplate.class.getName(), name));
-        } else {
-            return code;
-        }
-    }
-
     public static Collection<ErrorCodeItem> values() {
         return unmodifiable;
-    }
-
-    public Enum<?> getEnumValue() {
-        return this.enumValue;
     }
 
     public String name() {
@@ -52,7 +37,7 @@ public final class ErrorCodeItem implements ErrorCodeTemplate {
     }
 
     public boolean equals(Object  o) {
-        return !(o instanceof ErrorCodeItem) ? false : this.enumValue.equals(((ErrorCodeItem)o).enumValue);
+        return o instanceof ErrorCodeItem && this.enumValue.equals(((ErrorCodeItem) o).enumValue);
     }
 
     public int hashCode() {

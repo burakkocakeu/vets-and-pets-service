@@ -1,14 +1,4 @@
-
-FROM ruby:2
-
-RUN gem install redis-browser
-
-RUN apt-get update -yq && apt-get upgrade -yq && apt-get install nodejs -yq
-
-RUN sed -i -e "s/bind: '127.0.0.1'/bind: '0.0.0.0'/g" /usr/local/bundle/gems/redis-browser-*/bin/redis-browser
-
-# Define the entrypoint script.
-ENTRYPOINT ["redis-browser"]
-
-# Expose ports.
-EXPOSE 4567
+FROM openjdk:19-jdk-alpine
+VOLUME /tmp
+COPY target/vets-and-pets-service-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
