@@ -26,6 +26,9 @@ export class CreateUserFormComponent implements OnInit {
   constructor(private userService: UserServiceService) { }
 
   ngOnInit(): void {
+  }
+
+  resetForm() {
     this.fullName = undefined;
     this.username = undefined;
     this.email = undefined;
@@ -70,7 +73,7 @@ export class CreateUserFormComponent implements OnInit {
       role: this.role
     };
     this.userCreated.emit(body); // Emit the event
-    this.ngOnInit();
+    this.resetForm();
   }
 
   updateUser() {
@@ -84,7 +87,7 @@ export class CreateUserFormComponent implements OnInit {
       (data) => {
         console.log(data);
         this.userUpdatedOrDeleted.emit(); // Emit the event
-        this.ngOnInit();
+        this.resetForm();
       }, (error) => {
         console.log(error);
       });
@@ -96,7 +99,7 @@ export class CreateUserFormComponent implements OnInit {
       (data) => {
         console.log(data);
         this.userUpdatedOrDeleted.emit(); // Emit the event
-        this.ngOnInit();
+        this.resetForm();
       },
       (error) => { console.log(error); }
     );
@@ -121,6 +124,8 @@ export class CreateUserFormComponent implements OnInit {
     this.ownerId = undefined;
     this.showForm = false;
     this.showFormChange.emit();
-    this.ngOnInit();
+    setTimeout(() => {
+      this.resetForm();
+    },500);
   }
 }
