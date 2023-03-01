@@ -51,15 +51,22 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let pet of petStatistics">
-              <td>{{ pet.type }}</td>
-              <td>{{ pet.total }}</td>
-              <td class="animal-icons">
-                <i class="fa fa-cat" *ngIf="pet.type === 'CAT'"></i>
-                <i class="fas fa-dog" *ngIf="pet.type === 'DOG'"></i>
-                <i class="fas fa-dove" *ngIf="pet.type === 'BIRD'"></i>
-              </td>
-            </tr>
+            <ng-container *ngIf="petStatistics.length === 0; else petsTypes">
+              <tr>
+                <td colspan="6" class="text-center no-pets-found">No pets found.</td>
+              </tr>
+            </ng-container>
+            <ng-template #petsTypes>
+              <tr *ngFor="let pet of petStatistics">
+                <td>{{ pet.type }}</td>
+                <td>{{ pet.total }}</td>
+                <td class="animal-icons">
+                  <i class="fa fa-cat" *ngIf="pet.type === 'CAT'"></i>
+                  <i class="fas fa-dog" *ngIf="pet.type === 'DOG'"></i>
+                  <i class="fas fa-dove" *ngIf="pet.type === 'BIRD'"></i>
+                </td>
+              </tr>
+            </ng-template>
             </tbody>
           </table>
         </div>
