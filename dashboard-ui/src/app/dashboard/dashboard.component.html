@@ -86,7 +86,7 @@
     </tr>
     </thead>
     <tbody>
-    <ng-container *ngIf="petList.length !== 0; else petsList">
+    <ng-container *ngIf="petList.length === 0; else petsList">
       <tr>
         <td colspan="6" class="text-center no-pets-found">No pets found.</td>
       </tr>
