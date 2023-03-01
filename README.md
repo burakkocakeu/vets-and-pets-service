@@ -5,7 +5,7 @@ Requirements
 
 To build and run this application, you will need:
 
-    Java 19 or later
+    Java 17 or later
     Apache Maven 3.6.0 or later
     PostgreSQL 15.2 or later
     Redis 4.0 or later
