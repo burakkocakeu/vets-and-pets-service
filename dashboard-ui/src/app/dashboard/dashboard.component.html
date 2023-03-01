@@ -86,37 +86,44 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let pet of petList; let i = index;">
-      <td>{{ i+1 }}</td>
-      <td>{{ pet.id }}</td>
-      <td [title]="pet.ownerId">{{ pet.owner.toUpperCase() }}</td>
-      <td *ngIf="editPetIndex !== i">{{ pet.name }}</td>
-      <td *ngIf="editPetIndex === i"><input [(ngModel)]="pet.name"></td>
-      <td *ngIf="editPetIndex !== i">{{ pet.type }}</td>
-      <td *ngIf="editPetIndex === i">
-        <select class="form-control" id="petType" name="petType" [(ngModel)]="pet.type" required>
-          <option value="CAT">Cat</option>
-          <option value="DOG">Dog</option>
-          <option value="BIRD">Bird</option>
-        </select>
-      </td>
-      <td>
-        <!-- Edit button -->
-        <button class="btn btn-sm btn-outline-primary" *ngIf="editPetIndex !== i" (click)="editPet(i, pet)">
-          <i class="bi bi-pencil"></i>
-        </button>
+    <ng-container *ngIf="petList.length !== 0; else petsList">
+      <tr>
+        <td colspan="6" class="text-center no-pets-found">No pets found.</td>
+      </tr>
+    </ng-container>
+    <ng-template #petsList>
+      <tr *ngFor="let pet of petList; let i = index;">
+        <td>{{ i+1 }}</td>
+        <td>{{ pet.id }}</td>
+        <td [title]="pet.ownerId">{{ pet.owner.toUpperCase() }}</td>
+        <td *ngIf="editPetIndex !== i">{{ pet.name }}</td>
+        <td *ngIf="editPetIndex === i"><input [(ngModel)]="pet.name"></td>
+        <td *ngIf="editPetIndex !== i">{{ pet.type }}</td>
+        <td *ngIf="editPetIndex === i">
+          <select class="form-control" id="petType" name="petType" [(ngModel)]="pet.type" required>
+            <option value="CAT">Cat</option>
+            <option value="DOG">Dog</option>
+            <option value="BIRD">Bird</option>
+          </select>
+        </td>
+        <td>
+          <!-- Edit button -->
+          <button class="btn btn-sm btn-outline-primary" *ngIf="editPetIndex !== i" (click)="editPet(i, pet)">
+            <i class="bi bi-pencil"></i>
+          </button>
 
-        <!-- Delete button -->
-        <button class="btn btn-sm btn-outline-danger" *ngIf="editPetIndex !== i" (click)="showPetDeleteConfirmDialog(i, pet)" style="margin-left: 10px;">
-          <i class="bi bi-trash"></i>
-        </button>
+          <!-- Delete button -->
+          <button class="btn btn-sm btn-outline-danger" *ngIf="editPetIndex !== i" (click)="showPetDeleteConfirmDialog(i, pet)" style="margin-left: 10px;">
+            <i class="bi bi-trash"></i>
+          </button>
 
-        <!-- Update button -->
-        <button class="btn btn-sm btn-outline-success" *ngIf="editPetIndex === i" (click)="updatePet(i, pet)">
-          <i class="bi bi-check"></i>
-        </button>
-      </td>
-    </tr>
+          <!-- Update button -->
+          <button class="btn btn-sm btn-outline-success" *ngIf="editPetIndex === i" (click)="updatePet(i, pet)">
+            <i class="bi bi-check"></i>
+          </button>
+        </td>
+      </tr>
+    </ng-template>
     </tbody>
   </table>
 </div>

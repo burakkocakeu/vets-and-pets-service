@@ -42,6 +42,7 @@ The Spring Boot application provides a RESTful API for managing pets and veterin
 ## User Interface
 
 The user interface is built using Angular and can be accessed at http://localhost:4200 once the Angular development server is running.
+**Default admin user credentials**: `admin/admin`
 
 ## Testing
 
