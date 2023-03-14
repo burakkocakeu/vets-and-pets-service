@@ -2,14 +2,11 @@ package eu.burakkocak.vetsandpetsservice.exception.base;
 
 import org.springframework.http.HttpStatus;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-public final class ErrorCodeItem implements ErrorCodeTemplate {
+public final class ErrorCodeItem {
     private static final Map<String, ErrorCodeItem> enums = new ConcurrentSkipListMap<>();
-    private static final Collection<ErrorCodeItem> unmodifiable;
     private final Enum<?> enumValue;
 
     private <T extends Enum<T> & IErrorCode> ErrorCodeItem(T enumValue) {
@@ -22,10 +19,6 @@ public final class ErrorCodeItem implements ErrorCodeTemplate {
 
     public static <T extends Enum<T> & IErrorCode> ErrorCodeItem of(T enumInstance) {
         return new ErrorCodeItem(enumInstance);
-    }
-
-    public static Collection<ErrorCodeItem> values() {
-        return unmodifiable;
     }
 
     public String name() {
@@ -46,9 +39,5 @@ public final class ErrorCodeItem implements ErrorCodeTemplate {
 
     public HttpStatus httpStatus() {
         return ((IErrorCode)this.enumValue).httpStatus();
-    }
-
-    static {
-        unmodifiable = Collections.unmodifiableCollection(enums.values());
     }
 }

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,6 +22,12 @@ public class CustomExceptionHandler {
     public ResponseEntity<ErrorResponse> serviceExceptionHandler(ServiceException e) {
         log.debug("ServiceException occurred: {}", e.getErrorCode(), e);
         return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().name(), e.getParams()), e.getErrorCode().httpStatus());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> serviceExceptionHandler(AccessDeniedException e) {
+        log.debug("AccessDeniedException occurred: {}", e.getMessage(), e);
+        return new ResponseEntity<>(new ErrorResponse(ErrorCode.UNAUTHORIZED_REQUEST.name(), List.of()), ErrorCode.UNAUTHORIZED_REQUEST.httpStatus());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

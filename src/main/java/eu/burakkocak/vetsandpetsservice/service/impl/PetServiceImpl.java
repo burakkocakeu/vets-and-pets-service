@@ -47,8 +47,11 @@ public class PetServiceImpl implements PetService {
 
             int startIndex = pageable.getPageNumber() * pageable.getPageSize();
             int endIndex = Math.min(startIndex + pageable.getPageSize(), pets.size());
-
-            pets = pets.subList(startIndex, endIndex);
+            try {
+                pets = pets.subList(startIndex, endIndex);
+            } catch (IllegalArgumentException ex) {
+                pets = List.of();
+            }
             return new PageImpl<>(serviceMapper.map(new HashSet<>(pets)), pageable, pets.size());
         }
         // Returns all pets for 'ADMIN' user

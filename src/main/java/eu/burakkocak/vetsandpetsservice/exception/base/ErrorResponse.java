@@ -1,10 +1,7 @@
 package eu.burakkocak.vetsandpetsservice.exception.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import io.micrometer.common.util.StringUtils;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -16,14 +13,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class ErrorResponse implements Serializable {
     private String errorCode;
     private String message;
-    @JsonUnwrapped
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private ErrorDetail errorDetail;
     @JsonIgnore
     private List params;
     private static MessageSourceAccessor messages;

@@ -34,7 +34,7 @@ public class Account implements UserDetails {
 
     @EqualsAndHashCode.Exclude
     @Builder.Default
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER,
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Set<Pet> pets = new HashSet<>();
 

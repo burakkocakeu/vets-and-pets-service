@@ -6,10 +6,8 @@ import eu.burakkocak.vetsandpetsservice.api.dto.ApiPetResponse;
 import eu.burakkocak.vetsandpetsservice.auth.config.security.JwtTokenFilter;
 import eu.burakkocak.vetsandpetsservice.enums.PetType;
 import eu.burakkocak.vetsandpetsservice.service.PetService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -45,11 +43,6 @@ class PetControllerTest {
     private PetService petService;
 
     @MockBean JwtTokenFilter jwtTokenFilter;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     @WithMockUser(username = "john", roles = USER_ROLE)
@@ -96,7 +89,7 @@ class PetControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
+    @WithMockUser(roles = USER_ROLE)
     void testAddPet() throws Exception {
         ApiPetRequest request = new ApiPetRequest();
         request.setName("Buddy");
@@ -136,7 +129,7 @@ class PetControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "testuser", roles = "USER")
+    @WithMockUser(username = "testuser", roles = USER_ROLE)
     void removePetById_withUser() throws Exception {
         UUID petId = UUID.randomUUID();
 
@@ -149,7 +142,7 @@ class PetControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "testadmin", roles = "ADMIN")
+    @WithMockUser(username = "testadmin", roles = ADMIN_ROLE)
     void removePetById_withAdmin() throws Exception {
         UUID petId = UUID.randomUUID();
 
